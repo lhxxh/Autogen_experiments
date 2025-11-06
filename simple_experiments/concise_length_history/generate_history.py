@@ -60,7 +60,7 @@ async def compare_histories():
     
     # Setup ONE team with backend
     model_client = OpenAIChatCompletionClient(
-        model="gemini-1.5-pro", api_key="sk-xGE2JSXAbA4XjxJ6DT1vtQrUADE80Kdjb2iSjIJdtT7bKOm9", base_url="https://www.chataiapi.com/v1"
+        model="gemini-1.5-pro"
     )
     
     from local_agent import LocalAgent

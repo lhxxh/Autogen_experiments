@@ -7,7 +7,7 @@ from local_agent import LocalAgent
 
 
 async def get_agent_team():
-    model_client = OpenAIChatCompletionClient(model="gpt-4o", api_key="sk-uaITOoH1fy2ux31W5UQSeNfjeKQWBeIN2jlaPFRueQhRxDll", base_url="https://api.openai.com/v1")
+    model_client = OpenAIChatCompletionClient(model="gpt-4o")
 
     agent1 = LocalAgent("LOCAL_AGENT_1", model_client=model_client)
     agent2 = LocalAgent("LOCAL_AGENT_2", model_client=model_client)

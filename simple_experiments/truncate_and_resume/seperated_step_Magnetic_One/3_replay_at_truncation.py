@@ -47,7 +47,7 @@ def read_history_and_cache(history, cache):
 
 
 async def get_agent_team():
-    model_client = OpenAIChatCompletionClient(model="gpt-4o-mini", api_key="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")
+    model_client = OpenAIChatCompletionClient(model="gpt-4o-mini")
 
     surfer = MultimodalWebSurfer(
         "WebSurfer",

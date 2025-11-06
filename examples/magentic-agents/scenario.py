@@ -7,7 +7,7 @@ from autogen_ext.models.openai import OpenAIChatCompletionClient
 
 
 async def get_agent_team():
-    model_client = OpenAIChatCompletionClient(model="gemini-1.5-pro", api_key="sk-xGE2JSXAbA4XjxJ6DT1vtQrUADE80Kdjb2iSjIJdtT7bKOm9", base_url="https://www.chataiapi.com/v1")
+    model_client = OpenAIChatCompletionClient(model="gemini-1.5-pro")
 
     surfer = MultimodalWebSurfer(
         "WebSurfer",
