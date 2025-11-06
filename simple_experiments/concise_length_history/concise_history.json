@@ -1,0 +1,30 @@
+{
+  "question": "Count from 1 to 5",
+  "history": [
+    {
+      "role": "user",
+      "name": "user",
+      "content": "Count from 1 to 5"
+    },
+    {
+      "role": "Agent1",
+      "name": "Agent1",
+      "content": "1"
+    },
+    {
+      "role": "Agent2",
+      "name": "Agent2",
+      "content": "1"
+    },
+    {
+      "role": "Agent1",
+      "name": "Agent1",
+      "content": "2"
+    },
+    {
+      "role": "Agent2",
+      "name": "Agent2",
+      "content": "3"
+    }
+  ]
+}

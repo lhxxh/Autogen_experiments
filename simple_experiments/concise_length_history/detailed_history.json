@@ -1,0 +1,274 @@
+[
+  {
+    "message": {
+      "messages": [
+        {
+          "source": "user",
+          "models_usage": null,
+          "metadata": {},
+          "content": "Count from 1 to 5",
+          "type": "TextMessage"
+        }
+      ],
+      "type": "GroupChatStart"
+    },
+    "sender": null,
+    "recipient": "group_chat_manager/bf204d00-9c20-4aa4-b549-3f993e58a43d",
+    "type": "SendMessageEnvelope",
+    "timestamp": 0,
+    "id": 4365248112
+  },
+  {
+    "message": {
+      "messages": [
+        {
+          "source": "user",
+          "models_usage": null,
+          "metadata": {},
+          "content": "Count from 1 to 5",
+          "type": "TextMessage"
+        }
+      ],
+      "type": "GroupChatStart"
+    },
+    "sender": "group_chat_manager/bf204d00-9c20-4aa4-b549-3f993e58a43d",
+    "recipient": null,
+    "type": "PublishMessageEnvelope",
+    "timestamp": 1,
+    "id": 4365253952
+  },
+  {
+    "message": {
+      "messages": [
+        {
+          "source": "user",
+          "models_usage": null,
+          "metadata": {},
+          "content": "Count from 1 to 5",
+          "type": "TextMessage"
+        }
+      ],
+      "type": "GroupChatStart"
+    },
+    "sender": "group_chat_manager/bf204d00-9c20-4aa4-b549-3f993e58a43d",
+    "recipient": null,
+    "type": "PublishMessageEnvelope",
+    "timestamp": 2,
+    "id": 4365254192
+  },
+  {
+    "message": {
+      "type": "GroupChatRequestPublish"
+    },
+    "sender": "group_chat_manager/bf204d00-9c20-4aa4-b549-3f993e58a43d",
+    "recipient": null,
+    "type": "PublishMessageEnvelope",
+    "timestamp": 3,
+    "id": 4365402512
+  },
+  {
+    "message": {
+      "type": "None"
+    },
+    "sender": "group_chat_manager/bf204d00-9c20-4aa4-b549-3f993e58a43d",
+    "recipient": null,
+    "type": "ResponseMessageEnvelope",
+    "timestamp": 4,
+    "id": 4307138712
+  },
+  {
+    "message": {
+      "message": {
+        "source": "Agent1",
+        "models_usage": null,
+        "metadata": {},
+        "content": "1",
+        "type": "TextMessage"
+      },
+      "type": "GroupChatMessage"
+    },
+    "sender": "Agent1/bf204d00-9c20-4aa4-b549-3f993e58a43d",
+    "recipient": null,
+    "type": "PublishMessageEnvelope",
+    "timestamp": 5,
+    "id": 4365415792
+  },
+  {
+    "message": {
+      "agent_response": {
+        "chat_message": {
+          "source": "Agent1",
+          "models_usage": null,
+          "metadata": {},
+          "content": "1",
+          "type": "TextMessage"
+        },
+        "inner_messages": []
+      },
+      "type": "GroupChatAgentResponse"
+    },
+    "sender": "Agent1/bf204d00-9c20-4aa4-b549-3f993e58a43d",
+    "recipient": null,
+    "type": "PublishMessageEnvelope",
+    "timestamp": 6,
+    "id": 4365402272
+  },
+  {
+    "message": {
+      "type": "GroupChatRequestPublish"
+    },
+    "sender": "group_chat_manager/bf204d00-9c20-4aa4-b549-3f993e58a43d",
+    "recipient": null,
+    "type": "PublishMessageEnvelope",
+    "timestamp": 7,
+    "id": 4365254352
+  },
+  {
+    "message": {
+      "message": {
+        "source": "Agent2",
+        "models_usage": null,
+        "metadata": {},
+        "content": "1",
+        "type": "TextMessage"
+      },
+      "type": "GroupChatMessage"
+    },
+    "sender": "Agent2/bf204d00-9c20-4aa4-b549-3f993e58a43d",
+    "recipient": null,
+    "type": "PublishMessageEnvelope",
+    "timestamp": 8,
+    "id": 4365417392
+  },
+  {
+    "message": {
+      "agent_response": {
+        "chat_message": {
+          "source": "Agent2",
+          "models_usage": null,
+          "metadata": {},
+          "content": "1",
+          "type": "TextMessage"
+        },
+        "inner_messages": []
+      },
+      "type": "GroupChatAgentResponse"
+    },
+    "sender": "Agent2/bf204d00-9c20-4aa4-b549-3f993e58a43d",
+    "recipient": null,
+    "type": "PublishMessageEnvelope",
+    "timestamp": 9,
+    "id": 4365253312
+  },
+  {
+    "message": {
+      "type": "GroupChatRequestPublish"
+    },
+    "sender": "group_chat_manager/bf204d00-9c20-4aa4-b549-3f993e58a43d",
+    "recipient": null,
+    "type": "PublishMessageEnvelope",
+    "timestamp": 10,
+    "id": 4362450688
+  },
+  {
+    "message": {
+      "message": {
+        "source": "Agent1",
+        "models_usage": null,
+        "metadata": {},
+        "content": "2",
+        "type": "TextMessage"
+      },
+      "type": "GroupChatMessage"
+    },
+    "sender": "Agent1/bf204d00-9c20-4aa4-b549-3f993e58a43d",
+    "recipient": null,
+    "type": "PublishMessageEnvelope",
+    "timestamp": 11,
+    "id": 4365417632
+  },
+  {
+    "message": {
+      "agent_response": {
+        "chat_message": {
+          "source": "Agent1",
+          "models_usage": null,
+          "metadata": {},
+          "content": "2",
+          "type": "TextMessage"
+        },
+        "inner_messages": []
+      },
+      "type": "GroupChatAgentResponse"
+    },
+    "sender": "Agent1/bf204d00-9c20-4aa4-b549-3f993e58a43d",
+    "recipient": null,
+    "type": "PublishMessageEnvelope",
+    "timestamp": 12,
+    "id": 4365415472
+  },
+  {
+    "message": {
+      "type": "GroupChatRequestPublish"
+    },
+    "sender": "group_chat_manager/bf204d00-9c20-4aa4-b549-3f993e58a43d",
+    "recipient": null,
+    "type": "PublishMessageEnvelope",
+    "timestamp": 13,
+    "id": 4365403232
+  },
+  {
+    "message": {
+      "message": {
+        "source": "Agent2",
+        "models_usage": null,
+        "metadata": {},
+        "content": "3",
+        "type": "TextMessage"
+      },
+      "type": "GroupChatMessage"
+    },
+    "sender": "Agent2/bf204d00-9c20-4aa4-b549-3f993e58a43d",
+    "recipient": null,
+    "type": "PublishMessageEnvelope",
+    "timestamp": 14,
+    "id": 4365417872
+  },
+  {
+    "message": {
+      "agent_response": {
+        "chat_message": {
+          "source": "Agent2",
+          "models_usage": null,
+          "metadata": {},
+          "content": "3",
+          "type": "TextMessage"
+        },
+        "inner_messages": []
+      },
+      "type": "GroupChatAgentResponse"
+    },
+    "sender": "Agent2/bf204d00-9c20-4aa4-b549-3f993e58a43d",
+    "recipient": null,
+    "type": "PublishMessageEnvelope",
+    "timestamp": 15,
+    "id": 4365403312
+  },
+  {
+    "message": {
+      "message": {
+        "source": "MaxMessageTermination",
+        "models_usage": null,
+        "metadata": {},
+        "content": "Maximum number of messages 5 reached, current message count: 5",
+        "type": "StopMessage"
+      },
+      "type": "GroupChatTermination"
+    },
+    "sender": "group_chat_manager/bf204d00-9c20-4aa4-b549-3f993e58a43d",
+    "recipient": null,
+    "type": "PublishMessageEnvelope",
+    "timestamp": 16,
+    "id": 4365254432
+  }
+]

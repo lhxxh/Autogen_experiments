@@ -1,0 +1,17 @@
+(AGdeg) feiyunlu@feiyundeMacBook-Pro seperate_step_RoundRobin % python 3_replay_at_truncation.py     
+Team ID: 5871fd53-bcc8-489e-a3a9-ab547db1a42f
+Initial Backend loaded.
+resetting to checkpoint:  18
+Finished backend async load
+============================================================
+PHASE 3: Replay at Truncation
+============================================================
+/Users/feiyunlu/anaconda3/envs/AGdeg/lib/python3.11/site-packages/autogen_core/_single_threaded_agent_runtime.py:666: RuntimeWarning: Intervention handler on_response returned None. This might be unintentional. Consider returning the original message or DropMessage explicitly.
+  _warn_if_none(temp_message, "on_response")
+---------- user ----------
+Please summarize everything you have discovered so far in our conversation. DO NOT ASK TO WebSurfer to SEARCH ANYTHING
+---------- WebSurfer ----------
+In our conversation, you provided a description of the current webpage, specifically the Bing search page. You outlined the interactive elements visible, including buttons and a textbox, identified by numeric ID labels. The textbox is currently in focus, ready for input. You requested a summary of the information without asking to perform any searches.
+---------- assistant_agent ----------
+In our conversation, we discussed the current weather in Seattle, which is 46°F and cloudy, with a high of 49°F and a low of 44°F. The humidity is at 89%, and winds are light at 2 mph. We also touched on upcoming forecasts and activities to do during rainy weather, though I didn't request any searches.
+Saved AgDebugger cache files to:  ['output/3_replay_at_truncation/history.pickle', 'output/3_replay_at_truncation/cache.pickle']

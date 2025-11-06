@@ -131,6 +131,9 @@ class BackendRuntimeManager:
     def get_current_history(self):
         return [message_to_json(m.message, m.timestamp) for m in self.intervention_handler.history]
 
+    def get_current_history_raw_type(self):
+        return self.intervention_handler.history
+
     def save_history_session_from_reset(self, new_reset_from: int) -> None:
         self.prior_histories[self.session_counter] = MessageHistorySession(
             messages=self.get_current_history(),
@@ -236,3 +239,30 @@ class BackendRuntimeManager:
             await self.runtime.load_state(checkpoint)
         else:
             print("[WARN] Was unable to find agent state checkpoint for time ", cutoff_timestamp)
+
+
+    async def revert_message(self, cutoff_timestamp: int):
+        # immediately stop and clear queue
+        if self.is_processing:
+            await self.stop_processing()
+
+        current_message = self.intervention_handler.get_message_at_timestamp(cutoff_timestamp)
+        if current_message is None:
+            raise ValueError(f"Unable to find message in history with timestamp {cutoff_timestamp}")
+
+        self.save_history_session_from_reset(cutoff_timestamp + 1)
+        self.intervention_handler.purge_history_after_cutoff(cutoff_timestamp + 1)
+
+        # Prune checkpoints to match truncated history
+        self.agent_checkpoints = {
+            ts: checkpoint 
+            for ts, checkpoint in self.agent_checkpoints.items() 
+            if ts < cutoff_timestamp + 1
+        }
+
+        checkpoint = self.agent_checkpoints.get(cutoff_timestamp, None)
+        if checkpoint is not None:
+            await self.runtime.load_state(checkpoint)
+        else:
+            print("[WARN] Was unable to find agent state checkpoint for time ", cutoff_timestamp)
+        

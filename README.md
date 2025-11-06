@@ -8,6 +8,14 @@ autogen-core       0.4.8
 autogen-ext        0.4.8
 ```
 
+2. 为了支持 Autogen web_surfer， 需要以下package：
+
+```sh
+pip install playwright
+playwright install
+```
+
+
 # Test
 
 1. 测试代码在tests文件夹下面， 测试serialization 
@@ -56,6 +64,91 @@ agdebugger scenario:get_agent_team
 
 5. 处理过的message会被放在message history，overview会在右侧显示
 
+6. 如果想修改聊天记录继续生成，直接在history上改再点击save & revert，但只能改Response Message才会继续生成，。
+
+
+# Simple experiments
+
+1. 做了俩部分实验， 都放在 simple_experiment下面
+
+2. concise_length history 是对比 chat-agent level 和 runtime level 有什么区别
+
+3. truncate_and_resume 是模拟检测到trace出现error，在error截断并重新生成
+
+4. 结论：
+    （1）Autogen 有俩层操作，关系如下
+
+        ```sh
+        ┌──────────────────┐
+        │  team.run()      │  ← USER CALLS THIS
+        └────────┬─────────┘
+                │
+                ▼
+        ┌──────────────────────────────────────────────┐
+        │      AgentChat Layer (High-Level)            │
+        │  • Orchestrates conversation                 │
+        │  • Returns TaskResult with .messages         │
+        │  • GENERATES: Concise history (1.json)       │
+        └────────┬─────────────────────────────────────┘
+                │
+                ▼
+        ┌──────────────────────────────────────────────┐
+        │      Runtime Layer (Low-Level)               │
+        │  • Handles message routing                   │
+        │  • Manages agent state                       │
+        │  • InterventionHandler captures ALL          │
+        │  • GENERATES: Detailed history (agdebugger)  │
+        └──────────────────────────────────────────────┘
+
+        ```  
+
+    （2）相比较于 chat-agent level， runtime level 的 message 更加冗长。 
+        AGdebugger在每次message传递时会触发handler去截取message，导致同一个information会连续出现在不同类型message里
+        比如
+
+        ```sh
+        Timestamps 0-4: INITIALIZATION
+        ├─ T0: GroupChatStart (user: "Count from 1 to 5")
+        ├─ T1-2: Manager processes start
+        ├─ T3: GroupChatRequestPublish ← TRIGGER for Agent1
+        └─ T4: Manager's internal response
+
+        Timestamps 5-6: AGENT1 TURN
+        ├─ T5: GroupChatMessage (Agent1: "1") ← BROADCAST (informational)
+        └─ T6: GroupChatAgentResponse (Agent1: "1") ← TO MANAGER (actionable)
+
+        Timestamps 7-9: AGENT2 TURN  
+        ├─ T7: GroupChatRequestPublish ← TRIGGER for Agent2
+        ├─ T8: GroupChatMessage (Agent2: "1") ← BROADCAST
+        └─ T9: GroupChatAgentResponse (Agent2: "1") ← TO MANAGER
+
+        Timestamps 10-12: AGENT1 TURN
+        ├─ T10: GroupChatRequestPublish ← TRIGGER for Agent1
+        ├─ T11: GroupChatMessage (Agent1: "2") ← BROADCAST
+        └─ T12: GroupChatAgentResponse (Agent1: "2") ← TO MANAGER
+        ```
+
+        除此之外，runtime level history 的记录更加raw data
+        比如runtime level history 会记录image 的 Base64-encoded PNG image data，
+        但对应的chat level history只简单用<image>来表示
+
+
+    （3）AGdebugger 在每次截取message，设立一个timestamp，每个timestamp都出储存当下的runtime history和对应的state。
+        所以相比较于chat level的 team.save_state/load_state只能load save最后一个message的state，
+        AGdegbugger会记录整个conversation里每个message的state。
+        
+        
+    （4）注意这里的runtime history只有AGdebugger自己会用，其底层的Autogen不需要这个runtime history。
+        Autogen只依赖state去恢复状态。
+
+
+    （4）并不是每个agent都能maintain state，只有那些依赖AssistantAgent才会maintain state通过记录llm_context.
+        所以对于其他agent（e.g. websurfer， coder），恢复state是没意义.
+        他们只有在group manager让他们回应时才会得到context，出现在message_buffer，回应结束后message_buffer自动清空。
+
+     
+    （5）group manger的message_thread会记录context，但如果新的任务通过team.run(task='...'), 这个message_thread被覆盖。
+        如果这个team没有AssistantAgent类的agent，那恢复state没有意义。
 
 
 

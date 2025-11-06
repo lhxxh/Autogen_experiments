@@ -1,0 +1,110 @@
+┌──────────────────┐
+│  team.run()      │  ← USER CALLS THIS
+└────────┬─────────┘
+         │
+         ▼
+┌──────────────────────────────────────────────┐
+│      AgentChat Layer (High-Level)            │
+│  • Orchestrates conversation                 │
+│  • Returns TaskResult with .messages         │
+│  • GENERATES: Concise history (1.json)       │
+└────────┬─────────────────────────────────────┘
+         │
+         ▼
+┌──────────────────────────────────────────────┐
+│      Runtime Layer (Low-Level)               │
+│  • Handles message routing                   │
+│  • Manages agent state                       │
+│  • InterventionHandler captures ALL          │
+│  • GENERATES: Detailed history (agdebugger)  │
+└──────────────────────────────────────────────┘
+
+
+runtime history
+
+┌─────────────────────────────────────────────────────────────┐
+│ STEP 1: User starts conversation                            │
+└─────────────────────────────────────────────────────────────┘
+User/System → GroupChatStart
+              (contains initial task message)
+              ↓
+         GroupChatManager
+
+
+┌─────────────────────────────────────────────────────────────┐
+│ STEP 2: Manager triggers an agent                           │
+└─────────────────────────────────────────────────────────────┘
+GroupChatManager → GroupChatRequestPublish (broadcast)
+                   (asks "who wants to respond?")
+                   ↓
+              All Agents listen
+
+
+┌─────────────────────────────────────────────────────────────┐
+│ STEP 3: Selected agent responds                             │
+└─────────────────────────────────────────────────────────────┘
+Agent1 processes messages → GroupChatAgentResponse
+                           (sends back: chat_message + metadata)
+                           ↓
+                      GroupChatManager
+
+
+┌─────────────────────────────────────────────────────────────┐
+│ STEP 4: Manager broadcasts the response                     │
+└─────────────────────────────────────────────────────────────┘
+GroupChatManager → GroupChatMessage (broadcast)
+                   (shares Agent1's message with everyone)
+                   ↓
+              All Agents receive
+
+
+┌─────────────────────────────────────────────────────────────┐
+│ STEP 5: Repeat - Manager triggers next agent                │
+└─────────────────────────────────────────────────────────────┘
+GroupChatManager → GroupChatRequestPublish
+                   ↓
+              Agent2 selected
+              
+... cycle repeats ...
+
+
+Timestamps 0-4: INITIALIZATION
+├─ T0: GroupChatStart (user: "Count from 1 to 5")
+├─ T1-2: Manager processes start
+├─ T3: GroupChatRequestPublish ← TRIGGER for Agent1
+└─ T4: Manager's internal response
+
+Timestamps 5-6: AGENT1 TURN
+├─ T5: GroupChatMessage (Agent1: "1") ← BROADCAST (informational)
+└─ T6: GroupChatAgentResponse (Agent1: "1") ← TO MANAGER (actionable)
+
+Timestamps 7-9: AGENT2 TURN  
+├─ T7: GroupChatRequestPublish ← TRIGGER for Agent2
+├─ T8: GroupChatMessage (Agent2: "1") ← BROADCAST
+└─ T9: GroupChatAgentResponse (Agent2: "1") ← TO MANAGER
+
+Timestamps 10-12: AGENT1 TURN
+├─ T10: GroupChatRequestPublish ← TRIGGER for Agent1
+├─ T11: GroupChatMessage (Agent1: "2") ← BROADCAST
+└─ T12: GroupChatAgentResponse (Agent1: "2") ← TO MANAGER
+
+
+
+
+Message Type	Direction	Purpose	Triggers Action?
+GroupChatStart	User → Manager	Start conversation	✅ Yes - manager starts
+GroupChatRequestPublish	Manager → All	"Who should respond?"	✅ Yes - selected agent acts
+GroupChatAgentResponse	Agent → Manager	"Here's my response"	✅ Yes - manager decides next
+GroupChatMessage	Manager → All	"FYI: Agent said X"	❌ No - just notification
+GroupChatTermination	Manager → All	"We're done"	✅ Yes - stops conversation
+
+
+# Run to T6, team terminates
+result = await team.run(task="...")
+
+# Truncate agdebugger history to T6
+backend.intervention_handler.purge_history_after_cutoff(6)
+await backend.runtime.load_state(checkpoint_at_T6)
+
+# Resume with user feedback (no UserProxyAgent needed)
+await team.run(task="Agent1's response was wrong because X. Please correct it to Y.")

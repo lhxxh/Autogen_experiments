@@ -1,0 +1,158 @@
+**Because AgDebugger's history and Agent's conversation context are SEPARATE.**
+
+**AgDebugger's history** (`intervention_handler.history`):
+- External tracking for debugging/monitoring
+- NOT used by agents to generate responses
+- Sits in the intervention handler
+
+**Agent's conversation context** (`llm_messages`):
+- Internal to each agent
+- What the LLM actually sees
+- Stored in agent state
+
+When you do:
+```python
+backend = BackendRuntimeManager(team, logger, message_history=loaded_history, ...)
+```
+
+This populates `intervention_handler.history` (for tracking), but **NOT** the agents' internal `llm_messages` (for LLM context).
+
+**The agents don't read from AgDebugger's history** - they have their own separate conversation memory. Loading the runtime checkpoint restores agent instance variables, but not the conversation thread that gets sent to the LLM.
+
+**Fix:** You need to extract conversation messages from AgDebugger's history and inject them into the team's message thread using `team.load_state()` with the proper `message_thread` structure.
+
+
+┌─────────────────────────────────────────┐
+│ TEAM STATE (High-Level)                 │
+│ ✓ llm_messages (LLM conversation)      │
+│ ✓ message_thread (team messages)       │
+│ ✓ Agent conversation context           │
+└──────────────┬──────────────────────────┘
+               │
+               │ Contains ↓
+               │
+┌──────────────▼──────────────────────────┐
+│ RUNTIME STATE (Low-Level)                │
+│ ✓ Agent instance variables              │
+│ ✓ Internal counters/flags               │
+│ ✗ NO conversation history                │
+└─────────────────────────────────────────┘
+
+
+
+**Great question!** The key is `edit_and_revert_message` works **within the same runtime session**, not across program restarts.
+
+Looking at `edit_and_revert_message` (lines 208-241):
+
+```python
+async def edit_and_revert_message(self, new_message, cutoff_timestamp):
+    # 1. Truncate AgDebugger history
+    self.intervention_handler.purge_history_after_cutoff(cutoff_timestamp)
+    
+    # 2. Load checkpoint (restores agent state)
+    checkpoint = self.agent_checkpoints.get(cutoff_timestamp)
+    await self.runtime.load_state(checkpoint)
+    
+    # 3. RE-PUBLISH the message to continue
+    self.publish_message(new_message, current_message.message.topic_id)
+```
+
+**Why it works within same session:**
+- The **team's group chat manager** stays alive with its `message_thread`
+- Agents' `llm_messages` get restored from checkpoint
+- The manager's message thread connects old context → new messages
+
+**Why it fails across programs:**
+- New team object = **fresh group chat manager** with empty `message_thread`
+- Runtime checkpoint restores agent instance state
+- But **team manager's message_thread is NOT in runtime checkpoint**
+- So high-level conversation continuity is lost
+
+**The missing piece:** Team state includes `message_thread` in the group chat manager, which runtime checkpoints don't capture. That's why `team.save_state()` / `team.load_state()` exists - it saves the manager's conversation thread that connects everything together.
+
+**TL;DR:** Same session = team manager alive. New program = need `team.load_state()` to restore manager's message thread.
+
+
+**The issue:** When you `publish_message` and then `process_next()`, the runtime tries to get/create an agent instance. It first looks with key `"default"` (no existing instance found), then falls back to the loaded agent with team_id.
+
+**Why:** `runtime.load_state(checkpoint)` restores agent **state**, but the runtime is trying to **instantiate a fresh agent** because:
+
+1. During `_init()`, factories were registered
+2. Checkpoint loaded agent state into existing instances  
+3. But when processing the **new** message, runtime can't find the agent instance (it's looking in the wrong place or the instance isn't cached)
+4. So it tries to create a new one using the factory with key `"default"`
+
+**The root cause:** The loaded checkpoint agents aren't being used - the runtime is trying to create new agents instead.
+
+**Solution:** After loading state, ensure agents are properly instantiated. Try calling `runtime.start()` BEFORE publishing:
+
+```python
+await backend.async_initialize()
+backend.start_processing()  # Start runtime BEFORE publishing
+
+msg = TextMessage(...)
+backend.publish_message(msg, backend.groupchat._group_topic_type)
+
+for i in range(10):
+    await backend.process_next()
+```
+
+Or the agents from checkpoint need to be properly registered in the runtime's agent cache after `load_state()`.
+
+**Aha! You found it!** According to the [topic and subscription docs](https://microsoft.github.io/autogen/stable//user-guide/core-user-guide/core-concepts/topic-and-subscription.html), when you publish to a topic, the **topic source becomes the agent key** through type-based subscriptions.
+
+When you do:
+```python
+backend.publish_message(msg, backend.groupchat._group_topic_type)  # Just "group_topic"
+```
+
+It creates a `DefaultTopicId("group_topic")` which uses **`"default"` as the topic source**, so the agent key becomes `"default"`!
+
+**Fix: Publish with the full topic including team_id as source:**
+
+```python
+from autogen_core import DefaultTopicId
+
+# Create topic with team_id as source
+topic = DefaultTopicId(
+    type_=backend.groupchat._group_topic_type,
+    source=team_id  # Use team_id as topic source!
+)
+
+msg = TextMessage(content="...", source="user")
+backend.publish_message(msg, topic)
+```
+
+Or modify `publish_message` call in `edit_and_revert_message` (line 226) to preserve the topic source properly - it already does this! But when YOU publish manually, you need to include the source.
+
+**The key insight:** Topic = (Type, Source). Agent Key = Topic Source. You were only passing the Type!
+
+
+message_buffer of websurfer deleted latter in 
+
+**Yes, `message_buffer` is temporary** - it's a queue for pending messages to process, not persistent conversation history.
+
+**The real issue:** Your WebSurfer's `agent_state` is:
+
+```python
+'agent_state': {'type': 'BaseState', 'version': '1.0.0'}  # EMPTY!
+```
+
+There's **no `llm_messages` field**. According to the [AssistantAgent save_state docs](https://microsoft.github.io/autogen/0.4.8/user-guide/agentchat-user-guide/tutorial/state.html):
+
+> "For AssistantAgent, its state consists of the model_context. If your write your own custom agent, consider overriding the save_state() and load_state() methods. **The default implementations save and load an empty state.**"
+
+**MultimodalWebSurfer doesn't properly save conversation history** - it uses the default empty `BaseState`. Only the `message_buffer` (temporary queue) and the Orchestrator's `message_thread` contain history.
+
+**Why truncation fails:**
+- Orchestrator's `message_thread` has the conversation (at timestamp 10)
+- But WebSurfer has no `llm_messages` 
+- When you resume, WebSurfer doesn't remember the Seattle weather discussion
+- Only the Orchestrator's thread is restored, but it creates a fresh Task Ledger for the new task
+
+**The `message_buffer`:**
+- Gets filled when messages are sent to WebSurfer
+- Gets emptied after WebSurfer processes them
+- Not for persistent storage - just a processing queue
+
+Your conversation history is ONLY in `MagenticOneOrchestratorState.message_thread`, not in agent states. That's why agents don't "remember" - they never saved the conversation in the first place.
