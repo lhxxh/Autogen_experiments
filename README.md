@@ -134,8 +134,7 @@ agdebugger scenario:get_agent_team
 
 
     （3）AGdebugger 在每次截取message，设立一个timestamp，每个timestamp都出储存当下的runtime history和对应的state。
-        所以相比较于chat level的 team.save_state/load_state只能load save最后一个message的state，
-        AGdegbugger会记录整个conversation里每个message的state。
+        所以相比较于chat level的 team.save_state/load_state只能load save最后一个message的state， AGdegbugger会记录整个conversation里每个message的state。
         
         
     （4）注意这里的runtime history只有AGdebugger自己会用，其底层的Autogen不需要这个runtime history。
@@ -147,8 +146,10 @@ agdebugger scenario:get_agent_team
         他们只有在group manager让他们回应时才会得到context，出现在message_buffer，回应结束后message_buffer自动清空。
 
      
-    （5）group manger的message_thread会记录context，但如果新的任务通过team.run(task='...'), 这个message_thread被覆盖。
+    （5）Magentic-One group manger的message_thread会记录context，但如果load team state之后跑新的任务team.run(task='...'), 这个message_thread被覆盖，等于load失败。
         如果这个team没有AssistantAgent类的agent，那恢复state没有意义。
+
+    (6) Round-robin不会出现load state跑team.run()会覆盖之前的context的情况。magentic-one load不work
 
 
 
