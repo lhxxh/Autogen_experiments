@@ -142,14 +142,14 @@ agdebugger scenario:get_agent_team
 
 
     （4）并不是每个agent都能maintain state，只有那些依赖AssistantAgent才会maintain state通过记录llm_context.
-        所以对于其他agent（e.g. websurfer， coder），恢复state是没意义.
         他们只有在group manager让他们回应时才会得到context，出现在message_buffer，回应结束后message_buffer自动清空。
 
      
-    （5）Magentic-One group manger的message_thread会记录context，但如果load team state之后跑新的任务team.run(task='...'), 这个message_thread被覆盖，等于load失败。
-        如果这个team没有AssistantAgent类的agent，那恢复state没有意义。
+    （5）Group manger的message_thread会记录context.他只会把记录的context传给AssistantAgent类的agent。
+        如果这个team没有AssistantAgent类的agent，只有其他agent（e.g. websurfer， coder），那load state没有意义。
 
-    (6) Round-robin不会出现load state跑team.run()会覆盖之前的context的情况。magentic-one load不work
+    (6) Round-robin不会出现load state跑team.run()会覆盖之前的context的情况。 
+        Magentic-One load state没有意义因为新的任务team.run(task='...')会覆盖message_thread
 
 
 
