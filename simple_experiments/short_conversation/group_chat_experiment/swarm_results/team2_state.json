@@ -1,0 +1,203 @@
+{
+  "type": "TeamState",
+  "version": "1.0.0",
+  "agent_states": {
+    "Assistant": {
+      "type": "ChatAgentContainerState",
+      "version": "1.0.0",
+      "agent_state": {
+        "type": "AssistantAgentState",
+        "version": "1.0.0",
+        "llm_context": {
+          "messages": [
+            {
+              "content": "Search one poem written by Li Bai.",
+              "source": "user",
+              "type": "UserMessage"
+            },
+            {
+              "content": "Here is a well-known Li Bai poem:\n\n\u9759\u591c\u601d\n\u5e8a\u524d\u660e\u6708\u5149\uff0c\u7591\u662f\u5730\u4e0a\u971c\u3002\n\u4e3e\u5934\u671b\u660e\u6708\uff0c\u4f4e\u5934\u601d\u6545\u4e61\u3002\n\nEnglish translation (one common rendering):\nQuiet Night Thought\nBefore my bed, the moon is shining bright,\nI think that it is frost upon the ground.\nI raise my head and look at the bright moon,\nI lower my head and think of home.",
+              "thought": null,
+              "source": "Assistant",
+              "type": "AssistantMessage"
+            },
+            {
+              "content": "Here is one well-known Li Bai poem again:\n\n\u9759\u591c\u601d (Quiet Night Thought)\n\n\u5e8a\u524d\u660e\u6708\u5149\uff0c\u7591\u662f\u5730\u4e0a\u971c\u3002\n\u4e3e\u5934\u671b\u660e\u6708\uff0c\u4f4e\u5934\u601d\u6545\u4e61\u3002\n\nEnglish translation (one common rendering):\nBefore my bed, the moonlight is bright,\nI take it for frost upon the ground.\nI raise my head to gaze at the bright moon,\nThen lower my head and think of home.\n\nIf you\u2019d like, I can share another Li Bai poem or provide a different translation and brief analysis.",
+              "thought": null,
+              "source": "Assistant",
+              "type": "AssistantMessage"
+            },
+            {
+              "content": "What poem you mentioned before? Answer briefly.",
+              "source": "user",
+              "type": "UserMessage"
+            },
+            {
+              "content": "The poem was \u9759\u591c\u601d (Quiet Night Thought) by Li Bai.",
+              "thought": null,
+              "source": "Assistant",
+              "type": "AssistantMessage"
+            },
+            {
+              "content": "\u9759\u591c\u601d\uff08Quiet Night Thought\uff09\u2014 Li Bai.",
+              "thought": null,
+              "source": "Assistant",
+              "type": "AssistantMessage"
+            }
+          ]
+        }
+      },
+      "message_buffer": []
+    },
+    "WebSurfer": {
+      "type": "ChatAgentContainerState",
+      "version": "1.0.0",
+      "agent_state": {
+        "type": "BaseState",
+        "version": "1.0.0"
+      },
+      "message_buffer": [
+        {
+          "id": "9c0dd8e1-11f7-4a91-ba92-a525ddf9e40e",
+          "source": "user",
+          "models_usage": null,
+          "metadata": {},
+          "created_at": "2025-12-10T06:25:05.491884Z",
+          "content": "Search one poem written by Li Bai.",
+          "type": "TextMessage"
+        },
+        {
+          "id": "3a089e24-91ee-4839-a2b1-e7dc954c78d7",
+          "source": "Assistant",
+          "models_usage": {
+            "prompt_tokens": 426,
+            "completion_tokens": 931
+          },
+          "metadata": {},
+          "created_at": "2025-12-10T06:25:14.661897Z",
+          "content": "Here is a well-known Li Bai poem:\n\n\u9759\u591c\u601d\n\u5e8a\u524d\u660e\u6708\u5149\uff0c\u7591\u662f\u5730\u4e0a\u971c\u3002\n\u4e3e\u5934\u671b\u660e\u6708\uff0c\u4f4e\u5934\u601d\u6545\u4e61\u3002\n\nEnglish translation (one common rendering):\nQuiet Night Thought\nBefore my bed, the moon is shining bright,\nI think that it is frost upon the ground.\nI raise my head and look at the bright moon,\nI lower my head and think of home.",
+          "type": "TextMessage"
+        },
+        {
+          "id": "ee91a23b-ab25-48bf-a86a-0ba5badfc032",
+          "source": "Assistant",
+          "models_usage": {
+            "prompt_tokens": 521,
+            "completion_tokens": 952
+          },
+          "metadata": {},
+          "created_at": "2025-12-10T06:25:20.985866Z",
+          "content": "Here is one well-known Li Bai poem again:\n\n\u9759\u591c\u601d (Quiet Night Thought)\n\n\u5e8a\u524d\u660e\u6708\u5149\uff0c\u7591\u662f\u5730\u4e0a\u971c\u3002\n\u4e3e\u5934\u671b\u660e\u6708\uff0c\u4f4e\u5934\u601d\u6545\u4e61\u3002\n\nEnglish translation (one common rendering):\nBefore my bed, the moonlight is bright,\nI take it for frost upon the ground.\nI raise my head to gaze at the bright moon,\nThen lower my head and think of home.\n\nIf you\u2019d like, I can share another Li Bai poem or provide a different translation and brief analysis.",
+          "type": "TextMessage"
+        },
+        {
+          "id": "afa24166-a1ed-4484-9d47-4f8b572a1a96",
+          "source": "user",
+          "models_usage": null,
+          "metadata": {},
+          "created_at": "2025-12-10T06:25:20.990104Z",
+          "content": "What poem you mentioned before? Answer briefly.",
+          "type": "TextMessage"
+        },
+        {
+          "id": "1715c0e2-5c41-462f-9960-d19462e59778",
+          "source": "Assistant",
+          "models_usage": {
+            "prompt_tokens": 651,
+            "completion_tokens": 154
+          },
+          "metadata": {},
+          "created_at": "2025-12-10T06:25:23.239549Z",
+          "content": "The poem was \u9759\u591c\u601d (Quiet Night Thought) by Li Bai.",
+          "type": "TextMessage"
+        },
+        {
+          "id": "c235b4ec-5326-4235-8d60-0257da143923",
+          "source": "Assistant",
+          "models_usage": {
+            "prompt_tokens": 673,
+            "completion_tokens": 150
+          },
+          "metadata": {},
+          "created_at": "2025-12-10T06:25:24.742360Z",
+          "content": "\u9759\u591c\u601d\uff08Quiet Night Thought\uff09\u2014 Li Bai.",
+          "type": "TextMessage"
+        }
+      ]
+    },
+    "SwarmGroupChatManager": {
+      "type": "SwarmManagerState",
+      "version": "1.0.0",
+      "message_thread": [
+        {
+          "id": "9c0dd8e1-11f7-4a91-ba92-a525ddf9e40e",
+          "source": "user",
+          "models_usage": null,
+          "metadata": {},
+          "created_at": "2025-12-10T06:25:05.491884Z",
+          "content": "Search one poem written by Li Bai.",
+          "type": "TextMessage"
+        },
+        {
+          "id": "3a089e24-91ee-4839-a2b1-e7dc954c78d7",
+          "source": "Assistant",
+          "models_usage": {
+            "prompt_tokens": 426,
+            "completion_tokens": 931
+          },
+          "metadata": {},
+          "created_at": "2025-12-10T06:25:14.661897Z",
+          "content": "Here is a well-known Li Bai poem:\n\n\u9759\u591c\u601d\n\u5e8a\u524d\u660e\u6708\u5149\uff0c\u7591\u662f\u5730\u4e0a\u971c\u3002\n\u4e3e\u5934\u671b\u660e\u6708\uff0c\u4f4e\u5934\u601d\u6545\u4e61\u3002\n\nEnglish translation (one common rendering):\nQuiet Night Thought\nBefore my bed, the moon is shining bright,\nI think that it is frost upon the ground.\nI raise my head and look at the bright moon,\nI lower my head and think of home.",
+          "type": "TextMessage"
+        },
+        {
+          "id": "ee91a23b-ab25-48bf-a86a-0ba5badfc032",
+          "source": "Assistant",
+          "models_usage": {
+            "prompt_tokens": 521,
+            "completion_tokens": 952
+          },
+          "metadata": {},
+          "created_at": "2025-12-10T06:25:20.985866Z",
+          "content": "Here is one well-known Li Bai poem again:\n\n\u9759\u591c\u601d (Quiet Night Thought)\n\n\u5e8a\u524d\u660e\u6708\u5149\uff0c\u7591\u662f\u5730\u4e0a\u971c\u3002\n\u4e3e\u5934\u671b\u660e\u6708\uff0c\u4f4e\u5934\u601d\u6545\u4e61\u3002\n\nEnglish translation (one common rendering):\nBefore my bed, the moonlight is bright,\nI take it for frost upon the ground.\nI raise my head to gaze at the bright moon,\nThen lower my head and think of home.\n\nIf you\u2019d like, I can share another Li Bai poem or provide a different translation and brief analysis.",
+          "type": "TextMessage"
+        },
+        {
+          "id": "afa24166-a1ed-4484-9d47-4f8b572a1a96",
+          "source": "user",
+          "models_usage": null,
+          "metadata": {},
+          "created_at": "2025-12-10T06:25:20.990104Z",
+          "content": "What poem you mentioned before? Answer briefly.",
+          "type": "TextMessage"
+        },
+        {
+          "id": "1715c0e2-5c41-462f-9960-d19462e59778",
+          "source": "Assistant",
+          "models_usage": {
+            "prompt_tokens": 651,
+            "completion_tokens": 154
+          },
+          "metadata": {},
+          "created_at": "2025-12-10T06:25:23.239549Z",
+          "content": "The poem was \u9759\u591c\u601d (Quiet Night Thought) by Li Bai.",
+          "type": "TextMessage"
+        },
+        {
+          "id": "c235b4ec-5326-4235-8d60-0257da143923",
+          "source": "Assistant",
+          "models_usage": {
+            "prompt_tokens": 673,
+            "completion_tokens": 150
+          },
+          "metadata": {},
+          "created_at": "2025-12-10T06:25:24.742360Z",
+          "content": "\u9759\u591c\u601d\uff08Quiet Night Thought\uff09\u2014 Li Bai.",
+          "type": "TextMessage"
+        }
+      ],
+      "current_turn": 0,
+      "current_speaker": "Assistant"
+    }
+  }
+}

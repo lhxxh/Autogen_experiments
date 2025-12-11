@@ -1,0 +1,55 @@
+{
+  "root": "root",
+  "branch_from": "main_r3",
+  "nodes": [
+    {
+      "id": "root",
+      "label": "Root (initial state)",
+      "parent": null,
+      "transcript_path": null,
+      "snapshot_path": "/home/hanxiao/try_autogen/artifacts/snapshots/root.json"
+    },
+    {
+      "id": "main_r1",
+      "label": "Main round 1",
+      "parent": "root",
+      "transcript_path": "/home/hanxiao/try_autogen/artifacts/transcripts/main_r1.json",
+      "snapshot_path": "/home/hanxiao/try_autogen/artifacts/snapshots/main_r1.json"
+    },
+    {
+      "id": "main_r2",
+      "label": "Main round 2",
+      "parent": "main_r1",
+      "transcript_path": "/home/hanxiao/try_autogen/artifacts/transcripts/main_r2.json",
+      "snapshot_path": "/home/hanxiao/try_autogen/artifacts/snapshots/main_r2.json"
+    },
+    {
+      "id": "main_r3",
+      "label": "Main round 3",
+      "parent": "main_r2",
+      "transcript_path": "/home/hanxiao/try_autogen/artifacts/transcripts/main_r3.json",
+      "snapshot_path": "/home/hanxiao/try_autogen/artifacts/snapshots/main_r3.json"
+    },
+    {
+      "id": "main_r4",
+      "label": "Main round 4",
+      "parent": "main_r3",
+      "transcript_path": "/home/hanxiao/try_autogen/artifacts/transcripts/main_r4.json",
+      "snapshot_path": "/home/hanxiao/try_autogen/artifacts/snapshots/main_r4.json"
+    },
+    {
+      "id": "branch_r3",
+      "label": "Branch round 3",
+      "parent": "main_r3",
+      "transcript_path": "/home/hanxiao/try_autogen/artifacts/transcripts/branch_r3.json",
+      "snapshot_path": "/home/hanxiao/try_autogen/artifacts/snapshots/branch_r3.json"
+    },
+    {
+      "id": "branch_r4",
+      "label": "Branch round 4",
+      "parent": "branch_r3",
+      "transcript_path": "/home/hanxiao/try_autogen/artifacts/transcripts/branch_r4.json",
+      "snapshot_path": "/home/hanxiao/try_autogen/artifacts/snapshots/branch_r4.json"
+    }
+  ]
+}

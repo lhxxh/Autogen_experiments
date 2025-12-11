@@ -1,0 +1,73 @@
+[
+  {
+    "id": "b6a892d0-e15d-408a-8ddb-a1b2f8859a15",
+    "source": "user",
+    "models_usage": null,
+    "metadata": {},
+    "created_at": "2025-12-11 04:57:06.293710+00:00",
+    "content": "Continue the conversation to solve the task.",
+    "type": "TextMessage"
+  },
+  {
+    "id": "641697dd-ec03-4cd1-9149-8d967bcc2037",
+    "source": "WebSurfer",
+    "models_usage": {
+      "prompt_tokens": 2044,
+      "completion_tokens": 851
+    },
+    "metadata": {},
+    "created_at": "2025-12-11 04:57:14.224906+00:00",
+    "content": "Sure\u2014what would you like me to search for on Bing? Please provide the search terms or topic, and I\u2019ll type it into the box (ID 42) and run the search. If you prefer, I can also use voice search (Search using voice) or try a quick placeholder search like \u201cOpenAI latest news.\u201d What should I search for?",
+    "type": "TextMessage"
+  },
+  {
+    "id": "31444bcf-b5e6-4fb9-a60a-d6a01b84ba59",
+    "source": "Assistant",
+    "models_usage": {
+      "prompt_tokens": 8401,
+      "completion_tokens": 1245
+    },
+    "metadata": {},
+    "created_at": "2025-12-11 04:57:25.896154+00:00",
+    "content": "Great. Here are focused search queries you can enter on Bing to find the bird species shown in BBC Earth's Top 5 Silliest Animal Moments:\n\n- BBC Earth Top 5 Silliest Animal Moments bird species\n- Top 5 Silliest Animal Moments BBC Earth YouTube bird\n- BBC Earth \u201cTop 5 Silliest Animal Moments\u201d description bird\n- Top 5 Silliest Animal Moments BBC Earth bird (specific video description)\n\nIf you prefer, I can also start with a broader search like:\n- BBC Earth Top 5 Silliest Animal Moments\n\nOnce you run one of these searches, I\u2019ll help identify the exact bird species mentioned in the video description or title and confirm it for you.",
+    "type": "TextMessage"
+  },
+  {
+    "messages": [
+      {
+        "id": "b6a892d0-e15d-408a-8ddb-a1b2f8859a15",
+        "source": "user",
+        "models_usage": null,
+        "metadata": {},
+        "created_at": "2025-12-11 04:57:06.293710+00:00",
+        "content": "Continue the conversation to solve the task.",
+        "type": "TextMessage"
+      },
+      {
+        "id": "641697dd-ec03-4cd1-9149-8d967bcc2037",
+        "source": "WebSurfer",
+        "models_usage": {
+          "prompt_tokens": 2044,
+          "completion_tokens": 851
+        },
+        "metadata": {},
+        "created_at": "2025-12-11 04:57:14.224906+00:00",
+        "content": "Sure\u2014what would you like me to search for on Bing? Please provide the search terms or topic, and I\u2019ll type it into the box (ID 42) and run the search. If you prefer, I can also use voice search (Search using voice) or try a quick placeholder search like \u201cOpenAI latest news.\u201d What should I search for?",
+        "type": "TextMessage"
+      },
+      {
+        "id": "31444bcf-b5e6-4fb9-a60a-d6a01b84ba59",
+        "source": "Assistant",
+        "models_usage": {
+          "prompt_tokens": 8401,
+          "completion_tokens": 1245
+        },
+        "metadata": {},
+        "created_at": "2025-12-11 04:57:25.896154+00:00",
+        "content": "Great. Here are focused search queries you can enter on Bing to find the bird species shown in BBC Earth's Top 5 Silliest Animal Moments:\n\n- BBC Earth Top 5 Silliest Animal Moments bird species\n- Top 5 Silliest Animal Moments BBC Earth YouTube bird\n- BBC Earth \u201cTop 5 Silliest Animal Moments\u201d description bird\n- Top 5 Silliest Animal Moments BBC Earth bird (specific video description)\n\nIf you prefer, I can also start with a broader search like:\n- BBC Earth Top 5 Silliest Animal Moments\n\nOnce you run one of these searches, I\u2019ll help identify the exact bird species mentioned in the video description or title and confirm it for you.",
+        "type": "TextMessage"
+      }
+    ],
+    "stop_reason": "Maximum number of turns 2 reached."
+  }
+]
